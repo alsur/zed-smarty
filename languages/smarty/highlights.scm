@@ -11,6 +11,8 @@
 (block) @function.call
 (foreach) @keyword
 (foreach_else) @keyword
+(for) @keyword
+(while) @keyword
 (if) @keyword
 (else_if) @keyword
 (else) @keyword
@@ -22,6 +24,3 @@
 
 ;; Todo lo demás es texto
 (text) @string
-
-;; Brackets
-["(" ")" "[" "]"] @punctuation.bracket
