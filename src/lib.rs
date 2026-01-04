@@ -1,14 +1,15 @@
 use std::{env, fs};
 use zed_extension_api::{self as zed, Result};
 
-const SERVER_PATH: &str = "node_modules/twiggy-language-server/dist/server.js";
-const PACKAGE_NAME: &str = "twiggy-language-server";
+const SERVER_PATH: &str = "node_modules/vscode-smarty-langserver-extracted/bin/smarty-language-server";
+const PACKAGE_NAME: &str = "vscode-smarty-langserver-extracted";
+const PACKAGE_VERSION: &str = "0.1.2";
 
-struct TwigExtension {
+struct SmartyExtension {
     did_find_server: bool,
 }
 
-impl TwigExtension {
+impl SmartyExtension {
     fn server_exists(&self) -> bool {
         fs::metadata(SERVER_PATH).map_or(false, |stat| stat.is_file())
     }
@@ -23,16 +24,15 @@ impl TwigExtension {
             &language_server_id,
             &zed::LanguageServerInstallationStatus::CheckingForUpdate,
         );
-        let version = "0.17.0".to_string();
 
         if !server_exists
-            || zed::npm_package_installed_version(PACKAGE_NAME)?.as_ref() != Some(&version)
+            || zed::npm_package_installed_version(PACKAGE_NAME)?.as_ref() != Some(&PACKAGE_VERSION.to_string())
         {
             zed::set_language_server_installation_status(
                 &language_server_id,
                 &zed::LanguageServerInstallationStatus::Downloading,
             );
-            let result = zed::npm_install_package(PACKAGE_NAME, &version);
+            let result = zed::npm_install_package(PACKAGE_NAME, &PACKAGE_VERSION);
             match result {
                 Ok(()) => {
                     if !self.server_exists() {
@@ -54,7 +54,7 @@ impl TwigExtension {
     }
 }
 
-impl zed::Extension for TwigExtension {
+impl zed::Extension for SmartyExtension {
     fn new() -> Self {
         Self {
             did_find_server: false,
@@ -63,7 +63,7 @@ impl zed::Extension for TwigExtension {
 
     fn language_server_command(
         &mut self,
-        language_server_id: &zed_extension_api::LanguageServerId,
+        language_server_id: &zed::LanguageServerId,
         _worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
         let server_path = self.server_script_path(language_server_id)?;
@@ -82,4 +82,4 @@ impl zed::Extension for TwigExtension {
     }
 }
 
-zed::register_extension!(TwigExtension);
+zed::register_extension!(SmartyExtension);
