@@ -8,7 +8,7 @@ repository = "https://github.com/alsur/zed-smarty"
 
 [grammars.smarty]
 repository = "https://github.com/alsur/tree-sitter-smarty"
-commit = "8f066c7a24bced1a942cbdd88588cf75a5efda1e"
+commit = "d3e66413061437e59788ee9d3cd8f0376497bd38"
 
 [language_servers.smarty-language-server]
 name = "Smarty Language Server"

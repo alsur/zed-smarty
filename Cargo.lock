@@ -757,6 +757,7 @@ dependencies = [
 name = "zed-smarty"
 version = "0.1.0"
 dependencies = [
+ "serde_json",
  "zed_extension_api",
 ]
 

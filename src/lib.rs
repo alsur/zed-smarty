@@ -1,5 +1,6 @@
 use std::{env, fs};
 use zed_extension_api::{self as zed, Result};
+use serde_json::json;
 
 const SERVER_PATH: &str = "node_modules/vscode-smarty-langserver-extracted/bin/smarty-language-server";
 const PACKAGE_NAME: &str = "vscode-smarty-langserver-extracted";
@@ -79,6 +80,16 @@ impl zed::Extension for SmartyExtension {
             ],
             env: Default::default(),
         })
+    }
+
+    fn language_server_initialization_options(
+        &mut self,
+        _language_server_id: &zed::LanguageServerId,
+        _worktree: &zed::Worktree,
+    ) -> Result<Option<serde_json::Value>> {
+        Ok(Some(json!({
+            "storageDir": null
+        })))
     }
 }
 

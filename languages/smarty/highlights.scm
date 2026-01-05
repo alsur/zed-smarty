@@ -9,6 +9,10 @@
 ;; Estructuras y elementos
 (include) @function.call
 (block) @function.call
+(capture) @keyword
+(call) @function.call
+(function) @keyword
+(literal) @keyword
 (foreach) @keyword
 (foreach_else) @keyword
 (for) @keyword
